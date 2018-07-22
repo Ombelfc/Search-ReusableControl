@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SearchByRegex.Commands
 {
-    public class SearchCommand
+    public class SearchCommand : BaseCommand
     {
+        public SearchCommand(Action methodToExecute, Func<bool> canExecuteMethod) : base(methodToExecute, canExecuteMethod) { }
     }
 }

@@ -20,6 +20,42 @@ namespace SearchByRegex.Controls
     /// </summary>
     public partial class SearchControl : UserControl
     {
+        public static readonly DependencyProperty ButtonContentProperty =
+                               DependencyProperty.Register("ButtonContent",
+                                                           typeof(string),
+                                                           typeof(SearchControl),
+                                                           new PropertyMetadata(String.Empty));
+
+        public static readonly DependencyProperty ButtonCommandProperty =
+                               DependencyProperty.Register("ButtonCommand",
+                                                           typeof(ICommand),
+                                                           typeof(SearchControl),
+                                                           new PropertyMetadata(null));
+
+        public static readonly DependencyProperty SearchBoxTextProperty =
+                               DependencyProperty.Register("SearchBoxText",
+                                                           typeof(string),
+                                                           typeof(SearchControl),
+                                                           new PropertyMetadata(String.Empty));
+
+        public string ButtonContent
+        {
+            get { return (string)GetValue(ButtonContentProperty); }
+            set { SetValue(ButtonContentProperty, value); }
+        }
+
+        public ICommand ButtonCommand
+        {
+            get { return (ICommand)GetValue(ButtonCommandProperty); }
+            set { SetValue(ButtonCommandProperty, value); }
+        }
+
+        public string SearchBoxText
+        {
+            get { return (string)GetValue(SearchBoxTextProperty); }
+            set { SetValue(SearchBoxTextProperty, value); }
+        }
+
         public SearchControl()
         {
             InitializeComponent();

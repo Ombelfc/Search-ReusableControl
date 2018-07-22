@@ -11,10 +11,10 @@ namespace SearchByRegex.ViewModelsLocator
     public static class ViewModelLocator
     {
         public static readonly DependencyProperty AutoHookedUpViewModelProperty =
-                                                        DependencyProperty.RegisterAttached("AutoHookedUpViewModel",
-                                                            typeof(bool),
-                                                            typeof(ViewModelLocator),
-                                                            new PropertyMetadata(false, AutoHookedUpViewModelChanged));
+                               DependencyProperty.RegisterAttached("AutoHookedUpViewModel",
+                                                                   typeof(bool),
+                                                                   typeof(ViewModelLocator),
+                                                                   new PropertyMetadata(false, AutoHookedUpViewModelChanged));
 
         public static bool GetAutoHookedUpViewModel(DependencyObject obj)
         {
