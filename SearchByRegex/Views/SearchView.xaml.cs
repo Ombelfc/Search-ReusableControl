@@ -91,7 +91,21 @@ namespace SearchByRegex.Views
 
         private void OnAllSearchClicked(object sender, string pattern)
         {
+            var Matches = Regex.Matches(ToSearchText.GetText(), @pattern);
 
+            foreach(Match match in Matches)
+            {
+                TextPointer start = ToSearchText.Document.ContentStart.GetPositionAtOffset(match.Index, LogicalDirection.Forward);
+                TextPointer end = ToSearchText.Document.ContentStart.GetPositionAtOffset(match.Index + match.Length, LogicalDirection.Backward);
+
+                if(start != null && end != null)
+                {
+                    ToSearchText.Selection.Select(start, end);
+                    ToSearchText.Selection.ApplyPropertyValue(Run.BackgroundProperty, "red");
+                }
+
+                ToSearchText.Focus();
+            }
         }
     }
 }
