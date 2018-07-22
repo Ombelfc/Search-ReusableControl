@@ -5,18 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SearchByRegex.Views"
              xmlns:controls="clr-namespace:SearchByRegex.Controls"
+             xmlns:viewModels="clr-namespace:SearchByRegex.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
     <Grid>
 
-        <StackPanel>
+        <StackPanel Margin="5 5 5 5">
 
-            <controls:SearchControl />
+            <controls:SearchControl  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
             <RichTextBox x:Name="ToSearchText" IsReadOnly="True" 
                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" Height="400" />
 
+            <Button x:Name="OpenButton" Content="Open File" VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Left"  Width="150" Command="{Binding OpenCommand}" />
 
         </StackPanel>
         

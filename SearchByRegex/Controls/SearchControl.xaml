@@ -12,7 +12,7 @@
 
         <st:StackPanel Orientation="Horizontal" Margin="0 3 0 3" MarginBetweenChildren="5">
 
-            <TextBox x:Name="SearchBox" st:StackPanel.Fill="Fill" />
+            <TextBox x:Name="SearchBox" st:StackPanel.Fill="Fill" Width="250"/>
             <Button x:Name="SearchButton" Content="Search" Width="75"/>
 
         </st:StackPanel>
