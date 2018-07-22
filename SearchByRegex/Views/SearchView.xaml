@@ -5,22 +5,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SearchByRegex.Views"
              xmlns:controls="clr-namespace:SearchByRegex.Controls"
-             xmlns:viewModels="clr-namespace:SearchByRegex.ViewModels"
+             xmlns:vml="clr-namespace:SearchByRegex.ViewModelsLocator"
+             vml:ViewModelLocator.AutoHookedUpViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="455" d:DesignWidth="800">
     
     <Grid>
 
         <StackPanel Margin="5 5 5 5">
 
-            <controls:SearchControl  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <StackPanel Orientation="Horizontal">
+
+                <controls:SearchControl VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <controls:SearchControl VerticalAlignment="Top" HorizontalAlignment="Right" />
+                
+            </StackPanel>
 
             <RichTextBox x:Name="ToSearchText" IsReadOnly="True" 
                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto" Height="400" />
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" Height="400">
+
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="{Binding FileContent}"/>
+                    </Paragraph>
+                </FlowDocument>
+                
+            </RichTextBox>
 
             <Button x:Name="OpenButton" Content="Open File" VerticalAlignment="Bottom" 
-                    HorizontalAlignment="Left"  Width="150" Command="{Binding OpenCommand}" />
+                    HorizontalAlignment="Left" Width="150" Command="{Binding OpenCommand}" />
 
         </StackPanel>
         

@@ -12,6 +12,11 @@ namespace SearchByRegex.Commands
         private Action methodToExecute;
         private Func<bool> canExecuteMethod;
 
+        public BaseCommand(Action methodToExecute)
+        {
+            this.methodToExecute = methodToExecute;
+        }
+
         public BaseCommand(Action methodToExecute, Func<bool> canExecuteMethod)
         {
             this.methodToExecute = methodToExecute;
@@ -42,5 +47,7 @@ namespace SearchByRegex.Commands
         {
             methodToExecute?.Invoke();
         }
+
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using SearchByRegex.Commands;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,42 +12,58 @@ using System.Windows.Documents;
 
 namespace SearchByRegex.ViewModels
 {
-    public class SearchViewModel
+    public class SearchViewModel : INotifyPropertyChanged
     {
-        public BaseCommand OpenCommand { get; set; }
+        private OpenCommand openCommand;
+
+        public OpenCommand OpenCommand
+        {
+            get => openCommand;
+        }
+
+        private string fileContent;
+
+        public string FileContent
+        {
+            get => fileContent;
+            set
+            {
+                fileContent = value;
+                RaiseOnPropertyChanged("FileContent");               
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaiseOnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public SearchViewModel()
         {
-            OpenCommand = new BaseCommand(OnOpen, CanOpen);
+            openCommand = new OpenCommand(OnOpen);
         }
 
         private void OnOpen()
         {
-            TextRange range;
-            FileStream fStream;
-            OpenFileDialog ofd = new OpenFileDialog();
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                DefaultExt = ".txt",
+                Filter = "Text files (*.txt)|*.txt"
+            };
 
-            ofd.DefaultExt = ".txt";
-            ofd.Filter = "Text files (*.txt)|*.txt";
-            Nullable<bool> result = ofd.ShowDialog();
+            bool? result = dialog.ShowDialog();
 
             if (result.HasValue && result.Value)
             {
-                string fileName = ofd.FileName;
+                string fileName = dialog.FileName;
 
                 if (File.Exists(fileName))
                 {
-                    range = new TextRange();
-                    fStream = new FileStream(fileName, FileMode.Open);
-                    range.Load(fStream, DataFormats.Text);
-                    fStream.Close();
+                    FileContent = File.ReadAllText(fileName);
                 }
-            }
-        }
-
-        private bool CanOpen()
-        {
-
+            }           
         }
     }
 }
