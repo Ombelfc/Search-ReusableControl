@@ -26,8 +26,9 @@ namespace SearchByRegex.Utilities
 
         public static void SetPosition(this RichTextBox richTextBox)
         {
-            Rect rect = richTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Backward);
-            richTextBox.ScrollToVerticalOffset(rect.Y);
+            Rect screenPos = richTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Backward);
+            double offset = screenPos.Top + richTextBox.VerticalOffset;
+            richTextBox.ScrollToVerticalOffset(offset - richTextBox.ActualHeight / 2);
         }
     }
 }

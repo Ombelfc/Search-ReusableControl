@@ -92,6 +92,9 @@ namespace SearchByRegex.ViewModels
 
         public static event EventHandler<string> NextSearchButtonClicked;
         public static event EventHandler<string> AllSearchButtonClicked;
+        public static event EventHandler ClearButtonClicked;
+
+        public static event EventHandler<string> OpenFileButtonClicked;
 
         public SearchViewModel()
         {
@@ -99,6 +102,8 @@ namespace SearchByRegex.ViewModels
             searchNextCommand = new SearchCommand(OnNextSearch, CanNextSearch);
             searchAllCommand = new SearchCommand(OnAllSearch, CanAllSearch);
         }
+
+        #region File
 
         private void OnOpen()
         {
@@ -116,10 +121,13 @@ namespace SearchByRegex.ViewModels
 
                 if (File.Exists(fileName))
                 {
+                    OpenFileButtonClicked?.Invoke(this, File.ReadAllText(fileName));
                     FileContent = File.ReadAllText(fileName);
                 }
-            }           
+            }
         }
+
+        #endregion
 
         #region Search
 

@@ -20,11 +20,11 @@
                 <controls:SearchControl VerticalAlignment="Top" HorizontalAlignment="Left" 
                                         SearchBoxText="{Binding RegexNextPattern, Mode=TwoWay}" 
                                         ButtonContent="Next Search" ButtonCommand="{Binding SearchNextCommand}"/>
-                
+
                 <controls:SearchControl VerticalAlignment="Top" HorizontalAlignment="Right" 
                                         SearchBoxText="{Binding RegexAllPattern, Mode=TwoWay}" 
                                         ButtonContent="Highlight All" ButtonCommand="{Binding SearchAllCommand}"/>
-
+                
             </st:StackPanel>
 
             <RichTextBox x:Name="ToSearchText" IsReadOnly="True" 
@@ -33,7 +33,7 @@
 
                 <FlowDocument>
                     <Paragraph>
-                        <Run Text="{Binding FileContent}"/>
+                        <Run x:Name="rtbRun" Text="{Binding FileContent}"/>
                     </Paragraph>
                 </FlowDocument>
 

@@ -33,6 +33,12 @@ namespace SearchByRegex.Views
 
             SearchViewModel.NextSearchButtonClicked += OnNextSearchClicked;
             SearchViewModel.AllSearchButtonClicked += OnAllSearchClicked;
+            SearchViewModel.OpenFileButtonClicked += OnOpenFileClicked;
+        }
+
+        private void OnOpenFileClicked(object sender, string text)
+        {
+            ToSearchText.SetText(text);
         }
 
         #region Next Search
@@ -48,10 +54,10 @@ namespace SearchByRegex.Views
                 Rgx = new Regex(@pattern);
             }
 
-            HasNext = Search(ToSearchText, pattern, HasNext);
+            HasNext = Search(ToSearchText, HasNext);
         }
 
-        private bool Search(RichTextBox richTextBox, string pattern, bool searchNext)
+        private bool Search(RichTextBox richTextBox, bool searchNext)
         {
             TextRange searchRange;
 
@@ -64,7 +70,7 @@ namespace SearchByRegex.Views
                 searchRange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
             }
 
-            TextRange foundRange = FindTextInRange(searchRange, pattern);
+            TextRange foundRange = FindMatchInRange(searchRange);
             if (foundRange == null)
                 return false;
 
@@ -75,9 +81,11 @@ namespace SearchByRegex.Views
             return true;
         }
 
-        private TextRange FindTextInRange(TextRange searchRange, string pattern)
+        private TextRange FindMatchInRange(TextRange searchRange)
         {
             Match match = Rgx.Match(searchRange.Text);
+            if (!match.Success)
+                return null;
 
             for (TextPointer start = searchRange.Start.GetPositionAtOffset(match.Index, LogicalDirection.Forward); start != searchRange.End; start = start.GetPositionAtOffset(1))
             {
@@ -91,21 +99,65 @@ namespace SearchByRegex.Views
 
         private void OnAllSearchClicked(object sender, string pattern)
         {
-            var Matches = Regex.Matches(ToSearchText.GetText(), @pattern);
+            if (String.IsNullOrWhiteSpace(ToSearchText.GetText())) return;
 
-            foreach(Match match in Matches)
+            if (!pattern.Equals(ToSearch))
             {
-                TextPointer start = ToSearchText.Document.ContentStart.GetPositionAtOffset(match.Index, LogicalDirection.Forward);
-                TextPointer end = ToSearchText.Document.ContentStart.GetPositionAtOffset(match.Index + match.Length, LogicalDirection.Backward);
-
-                if(start != null && end != null)
-                {
-                    ToSearchText.Selection.Select(start, end);
-                    ToSearchText.Selection.ApplyPropertyValue(Run.BackgroundProperty, "red");
-                }
-
-                ToSearchText.Focus();
+                ToSearch = pattern;
+                HasNext = false;
+                Rgx = new Regex(@pattern);
             }
+
+            while((HasNext = SearchAll(ToSearchText, HasNext)));
+        }
+
+        private bool SearchAll(RichTextBox richTextBox, bool searchNext)
+        {
+            TextRange searchRange;
+
+            if (searchNext)
+            {
+                searchRange = new TextRange(richTextBox.Selection.Start.GetPositionAtOffset(1), richTextBox.Document.ContentEnd);
+            }
+            else
+            {
+                searchRange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+            }
+
+            TextRange foundRange = FindAllMatchInRange(searchRange, searchNext);
+            if (foundRange == null)
+                return false;
+
+            richTextBox.Selection.Select(foundRange.Start, foundRange.End);
+            richTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, "red");
+            richTextBox.Focus();
+            richTextBox.SetPosition();
+
+            return true;
+        }
+
+        private TextRange FindAllMatchInRange(TextRange searchRange, bool searchNext)
+        {
+            Match match = Rgx.Match(searchRange.Text);
+            if (!match.Success)
+                return null;
+
+            if (searchNext)
+            {
+                for (TextPointer start = searchRange.Start.GetPositionAtOffset(match.Index + 2, LogicalDirection.Forward); start != searchRange.End; start = start.GetPositionAtOffset(1))
+                {
+                    return new TextRange(start, searchRange.Start.GetPositionAtOffset(match.Index + match.Length + 2, LogicalDirection.Backward));
+                }
+            }
+            else
+            {
+                for (TextPointer start = searchRange.Start.GetPositionAtOffset(match.Index, LogicalDirection.Forward); start != searchRange.End; start = start.GetPositionAtOffset(1))
+                {
+                    return new TextRange(start, searchRange.Start.GetPositionAtOffset(match.Index + match.Length, LogicalDirection.Backward));
+                }
+            }
+
+            return null;
         }
     }
 }
