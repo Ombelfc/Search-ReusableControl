@@ -11,8 +11,8 @@
 
         <st:StackPanel Orientation="Horizontal" Margin="0 3 0 3" MarginBetweenChildren="5">
 
-            <TextBox x:Name="SearchBox" st:StackPanel.Fill="Fill" Width="250" Text="{Binding Path=SearchBoxText}"/>
-            <Button x:Name="SearchButton" Content="{Binding Path=ButtonContent}" Command="{Binding Path=ButtonCommand}" Width="75"/>
+            <TextBox x:Name="SearchBox" st:StackPanel.Fill="Fill" Width="200" Text="{Binding Path=SearchBoxText, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="SearchButton" Content="{Binding Path=ButtonContent}" Command="{Binding Path=ButtonCommand}" Width="100"/>
 
         </st:StackPanel>
         

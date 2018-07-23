@@ -92,8 +92,6 @@ namespace SearchByRegex.ViewModels
 
         public static event EventHandler<string> NextSearchButtonClicked;
         public static event EventHandler<string> AllSearchButtonClicked;
-        public static event EventHandler ClearButtonClicked;
-
         public static event EventHandler<string> OpenFileButtonClicked;
 
         public SearchViewModel()
