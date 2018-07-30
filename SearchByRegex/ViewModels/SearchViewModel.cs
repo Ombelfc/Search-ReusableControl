@@ -6,13 +6,14 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 
 namespace SearchByRegex.ViewModels
 {
-    public class SearchViewModel : INotifyPropertyChanged
+    public class SearchViewModel : BaseViewModel
     {
         #region Commands
 
@@ -49,7 +50,7 @@ namespace SearchByRegex.ViewModels
             set
             {
                 fileContent = value;
-                RaiseOnPropertyChanged("FileContent");               
+                RaiseOnPropertyChangedEvent("FileContent");
             }
         }
 
@@ -79,20 +80,13 @@ namespace SearchByRegex.ViewModels
 
         #endregion
 
-        #region INotifyPropertyChanged Interface
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaiseOnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
         public static event EventHandler<string> NextSearchButtonClicked;
         public static event EventHandler<string> AllSearchButtonClicked;
         public static event EventHandler<string> OpenFileButtonClicked;
+
+        private string ToSearch { get; set; }
+        private bool HasNext { get; set; }
+        private Regex Rgx { get; set; }
 
         public SearchViewModel()
         {
@@ -119,7 +113,7 @@ namespace SearchByRegex.ViewModels
 
                 if (File.Exists(fileName))
                 {
-                    OpenFileButtonClicked?.Invoke(this, File.ReadAllText(fileName));
+                    //OpenFileButtonClicked?.Invoke(this, File.ReadAllText(fileName));
                     FileContent = File.ReadAllText(fileName);
                 }
             }
@@ -133,7 +127,7 @@ namespace SearchByRegex.ViewModels
         {
             if (String.IsNullOrWhiteSpace(FileContent)) return;
 
-            NextSearchButtonClicked?.Invoke(this, RegexNextPattern);
+            //NextSearchButtonClicked?.Invoke(this, RegexNextPattern);
         }
 
         private bool CanNextSearch()
@@ -145,7 +139,7 @@ namespace SearchByRegex.ViewModels
         {
             if (String.IsNullOrWhiteSpace(FileContent)) return;
 
-            AllSearchButtonClicked?.Invoke(this, RegexAllPattern);
+            //AllSearchButtonClicked?.Invoke(this, RegexAllPattern);
         }
 
         private bool CanAllSearch()

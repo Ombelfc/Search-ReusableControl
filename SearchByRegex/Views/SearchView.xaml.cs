@@ -97,6 +97,8 @@ namespace SearchByRegex.Views
 
         #endregion
 
+        #region Highlight all
+
         private void OnAllSearchClicked(object sender, string pattern)
         {
             if (String.IsNullOrWhiteSpace(ToSearchText.GetText())) return;
@@ -159,5 +161,7 @@ namespace SearchByRegex.Views
 
             return null;
         }
+
+        #endregion
     }
 }

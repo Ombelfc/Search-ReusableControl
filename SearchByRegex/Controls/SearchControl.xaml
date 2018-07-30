@@ -9,10 +9,10 @@
 
     <Grid DataContext="{Binding ElementName=Parent}">
 
-        <st:StackPanel Orientation="Horizontal" Margin="0 3 0 3" MarginBetweenChildren="5">
+        <st:StackPanel Orientation="Horizontal" Margin="3 3 3 3" MarginBetweenChildren="5">
 
-            <TextBox x:Name="SearchBox" st:StackPanel.Fill="Fill" Width="200" Text="{Binding Path=SearchBoxText, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button x:Name="SearchButton" Content="{Binding Path=ButtonContent}" Command="{Binding Path=ButtonCommand}" Width="100"/>
+            <TextBox x:Name="SearchBox" st:StackPanel.Fill="Fill" Width="150" Text="{Binding Path=SearchBoxText, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="SearchButton" Content="{Binding Path=ButtonContent}" Command="{Binding Path=ButtonCommand}" Width="75"/>
 
         </st:StackPanel>
         
