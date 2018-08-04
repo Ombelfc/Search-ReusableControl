@@ -14,7 +14,7 @@ namespace SearchByRegex.Converters
     public class FlowDocumentToXamlConverter : IValueConverter
     {
         /// <summary>
-        /// Converts from XAML markup to a WPF FlowDocument
+        /// Converts from string to a WPF FlowDocument
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -25,17 +25,17 @@ namespace SearchByRegex.Converters
         {
             var flowDocument = new FlowDocument();
 
-            if (value != null)
+            if (!String.IsNullOrEmpty((string)value))
             {
-                var xamlText = (string) value;
-                flowDocument = (FlowDocument) XamlReader.Parse(xamlText);
+                var text = (string) value;
+                flowDocument.Blocks.Add(new Paragraph(new Run(text)));
             }
 
             return flowDocument;
         }
 
         /// <summary>
-        /// Converts from a WPF FlowDocument to a XAML markup string
+        /// Converts from a WPF FlowDocument to a string
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -46,8 +46,9 @@ namespace SearchByRegex.Converters
         {
             if (value == null)
                 return String.Empty;
-            
-            return XamlWriter.Save((FlowDocument) value);
+
+            var doc = ((FlowDocument) value);
+            return new TextRange(doc.ContentStart, doc.ContentEnd).Text;
         }
     }
 }

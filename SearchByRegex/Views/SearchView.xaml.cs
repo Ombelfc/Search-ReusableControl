@@ -33,20 +33,12 @@ namespace SearchByRegex.Views
 
             SearchViewModel.NextSearchButtonClicked += OnNextSearchClicked;
             SearchViewModel.AllSearchButtonClicked += OnAllSearchClicked;
-            SearchViewModel.OpenFileButtonClicked += OnOpenFileClicked;
-        }
-
-        private void OnOpenFileClicked(object sender, string text)
-        {
-            ToSearchText.SetText(text);
         }
 
         #region Next Search
 
         private void OnNextSearchClicked(object sender, string pattern)
         {
-            if (String.IsNullOrWhiteSpace(ToSearchText.GetText())) return;
-
             if (!pattern.Equals(ToSearch))
             {
                 ToSearch = pattern;
@@ -54,7 +46,7 @@ namespace SearchByRegex.Views
                 Rgx = new Regex(@pattern);
             }
 
-            HasNext = Search(ToSearchText, HasNext);
+            HasNext = Search(ToSearchText.rtb, HasNext);
         }
 
         private bool Search(RichTextBox richTextBox, bool searchNext)
@@ -101,8 +93,6 @@ namespace SearchByRegex.Views
 
         private void OnAllSearchClicked(object sender, string pattern)
         {
-            if (String.IsNullOrWhiteSpace(ToSearchText.GetText())) return;
-
             if (!pattern.Equals(ToSearch))
             {
                 ToSearch = pattern;
@@ -110,7 +100,7 @@ namespace SearchByRegex.Views
                 Rgx = new Regex(@pattern);
             }
 
-            while((HasNext = SearchAll(ToSearchText, HasNext)));
+            while((HasNext = SearchAll(ToSearchText.rtb, HasNext)));
         }
 
         private bool SearchAll(RichTextBox richTextBox, bool searchNext)

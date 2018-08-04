@@ -54,5 +54,17 @@ namespace SearchByRegex.Controls
             thisControl.TextHasChanged = false;
         }
 
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextHasChanged = true;
+        }
+
+        public void UpdateDocumentBindings()
+        {
+            if (TextHasChanged) return;
+
+            InternalUpdatePending = 2;
+            SetValue(DocumentProperty, this.rtb.Document);
+        }
     }
 }

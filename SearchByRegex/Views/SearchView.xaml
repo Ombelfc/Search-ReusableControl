@@ -7,11 +7,18 @@
              xmlns:st="http://schemas.spicytaco.io/"
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:controls="clr-namespace:SearchByRegex.Controls"
+             xmlns:converters="clr-namespace:SearchByRegex.Converters"
              xmlns:vml="clr-namespace:SearchByRegex.ViewModelsLocator"
              vml:ViewModelLocator.AutoHookedUpViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="750">
 
+    <UserControl.Resources>
+
+        <converters:FlowDocumentToXamlConverter x:Key="flowDocumentConverter"/>
+
+    </UserControl.Resources>
+    
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -22,18 +29,22 @@
         <st:StackPanel Grid.Column="0" Margin="5 5 5 5">
 
             <controls:SearchControl VerticalAlignment="Top" HorizontalAlignment="Left" 
-                                        SearchBoxText="{Binding RegexNextPattern, Mode=TwoWay}" 
-                                        ButtonContent="Next Search" ButtonCommand="{Binding SearchNextCommand}"/>
+                                    SearchBoxText="{Binding RegexNextPattern, Mode=TwoWay}" 
+                                    ButtonContent="Next Search" ButtonCommand="{Binding SearchNextCommand}"/>
 
             <controls:SearchControl VerticalAlignment="Top" HorizontalAlignment="Right" 
-                                        SearchBoxText="{Binding RegexAllPattern, Mode=TwoWay}" 
-                                        ButtonContent="Highlight All" ButtonCommand="{Binding SearchAllCommand}"/>
+                                    SearchBoxText="{Binding RegexAllPattern, Mode=TwoWay}" 
+                                    ButtonContent="Highlight All" ButtonCommand="{Binding SearchAllCommand}"/>
 
         </st:StackPanel>
 
         <StackPanel Grid.Column="1" Margin="5 5 5 5">
 
-            <toolkit:RichTextBox x:Name="ToSearchText" IsReadOnly="True"
+            <controls:BindableRichTextBox x:Name="ToSearchText" Document="{Binding FileContentDocument, Mode=TwoWay}" Height="400"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+            <!--<toolkit:RichTextBox x:Name="ToSearchText" IsReadOnly="True"
                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                                  Padding="10" BorderBrush="Gray" Height="400"
@@ -43,7 +54,7 @@
                     <toolkit:PlainTextFormatter/>
                 </toolkit:RichTextBox.TextFormatter>
                 
-            </toolkit:RichTextBox>
+            </toolkit:RichTextBox>-->
 
             <!--<RichTextBox x:Name="ToSearchText" IsReadOnly="True" 
                      ScrollViewer.HorizontalScrollBarVisibility="Auto"

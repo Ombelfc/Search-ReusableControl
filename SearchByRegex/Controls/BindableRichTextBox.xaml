@@ -9,7 +9,7 @@
 
     <Grid>
 
-        <RichTextBox x:Name="rtb" />
+        <RichTextBox x:Name="rtb" TextChanged="OnTextChanged"/>
 
     </Grid>
 

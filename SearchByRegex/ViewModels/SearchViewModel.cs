@@ -78,15 +78,22 @@ namespace SearchByRegex.ViewModels
             }
         }
 
+        private FlowDocument fileContentDocument;
+
+        public FlowDocument FileContentDocument
+        {
+            get => fileContentDocument;
+            set
+            {
+                fileContentDocument = value;
+                RaiseOnPropertyChangedEvent("FileContentDocument");
+            }
+        }
+
         #endregion
 
         public static event EventHandler<string> NextSearchButtonClicked;
         public static event EventHandler<string> AllSearchButtonClicked;
-        public static event EventHandler<string> OpenFileButtonClicked;
-
-        private string ToSearch { get; set; }
-        private bool HasNext { get; set; }
-        private Regex Rgx { get; set; }
 
         public SearchViewModel()
         {
@@ -113,8 +120,9 @@ namespace SearchByRegex.ViewModels
 
                 if (File.Exists(fileName))
                 {
-                    //OpenFileButtonClicked?.Invoke(this, File.ReadAllText(fileName));
                     FileContent = File.ReadAllText(fileName);
+                    FileContentDocument = new FlowDocument();
+                    FileContentDocument.Blocks.Add(new Paragraph(new Run(FileContent)));
                 }
             }
         }
@@ -125,26 +133,34 @@ namespace SearchByRegex.ViewModels
 
         private void OnNextSearch()
         {
-            if (String.IsNullOrWhiteSpace(FileContent)) return;
+            if (String.IsNullOrEmpty(FileContent))
+            {
+                MessageBox.Show("Load some text first!");
+                return;
+            }
 
-            //NextSearchButtonClicked?.Invoke(this, RegexNextPattern);
+            NextSearchButtonClicked?.Invoke(this, RegexNextPattern);
         }
 
         private bool CanNextSearch()
         {
-            return (!String.IsNullOrWhiteSpace(RegexNextPattern));
+            return (!String.IsNullOrEmpty(RegexNextPattern));
         }
 
         private void OnAllSearch()
         {
-            if (String.IsNullOrWhiteSpace(FileContent)) return;
+            if (String.IsNullOrEmpty(FileContent))
+            {
+                MessageBox.Show("Load some text first!");
+                return;
+            }
 
-            //AllSearchButtonClicked?.Invoke(this, RegexAllPattern);
+            AllSearchButtonClicked?.Invoke(this, RegexAllPattern);
         }
 
         private bool CanAllSearch()
         {
-            return (!String.IsNullOrWhiteSpace(RegexAllPattern));
+            return (!String.IsNullOrEmpty(RegexAllPattern));
         }
 
         #endregion
