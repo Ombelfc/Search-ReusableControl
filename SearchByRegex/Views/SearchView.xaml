@@ -44,30 +44,6 @@
                                           ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                                           ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
-            <!--<toolkit:RichTextBox x:Name="ToSearchText" IsReadOnly="True"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                 Padding="10" BorderBrush="Gray" Height="400"
-                                 Text="{Binding FileContent, UpdateSourceTrigger=PropertyChanged}">
-
-                <toolkit:RichTextBox.TextFormatter>
-                    <toolkit:PlainTextFormatter/>
-                </toolkit:RichTextBox.TextFormatter>
-                
-            </toolkit:RichTextBox>-->
-
-            <!--<RichTextBox x:Name="ToSearchText" IsReadOnly="True" 
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto" Height="400">
-
-                <FlowDocument>
-                    <Paragraph>
-                        <Run x:Name="rtbRun" Text="{Binding FileContent}"/>
-                    </Paragraph>
-                </FlowDocument>
-
-            </RichTextBox>-->
-
             <Button x:Name="OpenButton" Content="Open File" Margin="3 3 0 3" VerticalAlignment="Bottom" 
                     HorizontalAlignment="Right" Width="75" Command="{Binding OpenCommand}" />
 
